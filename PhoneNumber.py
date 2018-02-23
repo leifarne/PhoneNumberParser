@@ -24,6 +24,7 @@ class PhoneNumber(object):
             number = "00" + number[1:]  # Replace '+' with '00'
 
         # Remove all separation characters
+        #TODO: Jeg synes som sagt denne sløyfa blir for kompleks. Det alltid tungt å dechiffrere løkkeindekser - +1 eller -1 - man vet aldri. Se om det er mulig å bruke map-reduce.
         i = 0
         while i < len(number):
             if not number[i].isalnum():
@@ -60,12 +61,16 @@ class PhoneNumber(object):
             raise ValueError("Number is empty")
 
         # Length checks
+        #TODO: Denne hører ikke hjemme i baseklassen. Flytt til landklassen.
         if len(number) < 12:
             raise IndexError("Number too short")
         if len(number) > 12:
             raise IndexError("Number too long")
 
 class DanishPhoneNumber(PhoneNumber):
+    
+    #TODO: deklarer en static member country-code som er "45", og bruk den i initialiseringen av tabellen i main.
+    
     def __init__(self):
         super(PhoneNumber, self).__init__()
         self._country_code = "+45"
@@ -73,8 +78,11 @@ class DanishPhoneNumber(PhoneNumber):
     # Follows the format: "country code-number: 2-2-2-2"
     def format(self):
         # Put two digits together, seperate by space
+        #TODO: string interpolation? Yes?
         number_str = self._number[:2] + " " + self._number[2:4] + " " + self._number[4:6] + " " + self._number[6:8]
         return self._country_code + " " + number_str
+
+    
 class SwedishPhoneNumber(PhoneNumber):
     _regional_code = ""
 
@@ -84,12 +92,14 @@ class SwedishPhoneNumber(PhoneNumber):
 
     def error_check(self, number):
         # Value checks
+        #TODO: Slett, og kall heller super sin error_check.
         if not number.isdigit():
             raise ValueError("Number contains non-numerals")
         elif not number:
             raise ValueError("Number is empty")
 
         # Length checks
+        #COMMENT: Riktig. Her kommer den landspesifikke sjekken.
         if len(number) < 12:
             raise IndexError("Number too short")
         if len(number) > 16:
@@ -118,6 +128,7 @@ class SwedishPhoneNumber(PhoneNumber):
         return number_str
 class NorwegianPhoneNumber(PhoneNumber):
     def __init__(self):
+        #TODO: Tror ikke super sin constructor skal kalles ved å referere init(). Kun super(...).
         super(PhoneNumber, self).__init__()
         self._country_code = "+47"
 
