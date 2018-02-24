@@ -25,6 +25,7 @@ class PhoneNumber(object):
 
         # Remove all separation characters
         #TODO: Jeg synes som sagt denne sløyfa blir for kompleks. Det alltid tungt å dechiffrere løkkeindekser - +1 eller -1 - man vet aldri. Se om det er mulig å bruke map-reduce.
+#filter() heter den visst.
         i = 0
         while i < len(number):
             if not number[i].isalnum():
@@ -70,6 +71,7 @@ class PhoneNumber(object):
 class DanishPhoneNumber(PhoneNumber):
     
     #TODO: deklarer en static member country-code som er "45", og bruk den i initialiseringen av tabellen i main.
+    _country_code = "45
     
     def __init__(self):
         super(PhoneNumber, self).__init__()
@@ -128,7 +130,6 @@ class SwedishPhoneNumber(PhoneNumber):
         return number_str
 class NorwegianPhoneNumber(PhoneNumber):
     def __init__(self):
-        #TODO: Tror ikke super sin constructor skal kalles ved å referere init(). Kun super(...).
         super(PhoneNumber, self).__init__()
         self._country_code = "+47"
 
