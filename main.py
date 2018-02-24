@@ -18,7 +18,7 @@ line_number = 0
 raw_number = ""  # Unnormalized
 
 #TODO: Bruk klassetyper. Jeg skal sjekke hvordan det gjøres.
-phone_number = {"45": PN.DanishPhoneNumber(),
+phone_number = {PN.DanishPhoneNumber._country_code: PN.DanishPhoneNumber.__class__,
                 "46": PN.SwedishPhoneNumber(),
                 "47": PN.NorwegianPhoneNumber()}
 input_file = open(in_file, "r")
@@ -37,11 +37,13 @@ while True:
     try:
         number = PN.PhoneNumber.normalize(raw_number)
         #TODO: Her bør objektet instansieres - på bakgrunn av landkode. Og etterfølgende kode jobber på den spesifikke nummer-instansen.
+        
         country = PN.PhoneNumber.identify_country(number)
-        phone_number[country].parse(number)  # Accepts normalized numbers only
+        num_instance = type.__call__(phone_number[country])
+        num_instance.parse(number)  # Accepts normalized numbers only
 
         # No exceptions raised. Number is correct
-        number = phone_number[country].format()
+        number = num_instance.format()
         output_file.write(number + "\n")
 
         line_number += 1
